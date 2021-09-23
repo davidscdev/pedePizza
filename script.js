@@ -12,6 +12,15 @@ pizzaJson.map((item, index) => {
     pizzaItem.querySelector('.pizza-item--name').innerHTML = item.name;
     pizzaItem.querySelector('.pizza-item--desc').innerHTML = item.description;
 
+    pizzaItem.querySelector('a').addEventListener('click', (e) => {
+        e.preventDefault();
+
+        c('.pizzaWindowArea').style.opacity = 0;
+        c('.pizzaWindowArea').style.display = 'flex';
+        setTimeout(() => c('.pizzaWindowArea').style.opacity = 1, 200);
+        console.log(`Clicou na pizza de ${item.name}.`);
+    });
+
     c('.pizza-area').append(pizzaItem); //Coloca esse elemento que acabou de ser criado e coloca na div pizza-area.
 
     console.log(item.name);
