@@ -51,3 +51,11 @@ pizzaJson.map((item, index) => {
 
     console.log(item.name);
 });
+
+function closeModal() {
+    c('.pizzaWindowArea').style.display = 'none';
+}
+
+cs('.pizzaInfo--cancelButton, .pizzaInfo--cancelMobileButton').forEach((element) => {
+    element.addEventListener('click', closeModal);
+});
