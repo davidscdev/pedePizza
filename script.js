@@ -52,10 +52,34 @@ pizzaJson.map((item, index) => {
     console.log(item.name);
 });
 
+
+// Funções para tratar dentro do modal
 function closeModal() {
     c('.pizzaWindowArea').style.display = 'none';
 }
 
 cs('.pizzaInfo--cancelButton, .pizzaInfo--cancelMobileButton').forEach((element) => {
     element.addEventListener('click', closeModal);
+});
+
+//Trata os botões de qtd de pizzas no modal
+c('.pizzaInfo--qtmenos').addEventListener('click', () => {
+    if (modalQt > 1) {
+        modalQt--;
+        c('.pizzaInfo--qt').innerHTML = modalQt;
+    }
+});
+
+c('.pizzaInfo--qtmais').addEventListener('click', () => {
+    modalQt++;
+    c('.pizzaInfo--qt').innerHTML = modalQt;
+});
+
+//Criando a funcionalidade de click nos botões de tamanho de pizza.
+
+cs('.pizzaInfo--size').forEach((size, index) => {
+    size.addEventListener('click', (e) => {
+        c('.pizzaInfo--size.selected').classList.remove('selected');
+        size.classList.add('selected');
+    });
 });
