@@ -1,4 +1,6 @@
+let cart = []; //Array que registrará as pizzas no carrinho
 let modalQt = 1;
+let modalKey = 0;
 
 //simplifica a seleção de elementos com o uso do c -> querySelector e cs -> All
 const c = (el) => document.querySelector(el);
@@ -22,6 +24,7 @@ pizzaJson.map((item, index) => {
         console.log(pizzaJson[key]);
 
         modalQt = 1;
+        modalKey = key;
 
         c('.pizzaBig img').src = pizzaJson[key].img;
         c('.pizzaInfo h1').innerHTML = pizzaJson[key].name;
@@ -76,10 +79,23 @@ c('.pizzaInfo--qtmais').addEventListener('click', () => {
 });
 
 //Criando a funcionalidade de click nos botões de tamanho de pizza.
-
 cs('.pizzaInfo--size').forEach((size, index) => {
     size.addEventListener('click', (e) => {
         c('.pizzaInfo--size.selected').classList.remove('selected');
         size.classList.add('selected');
     });
 });
+
+//Funcionalidade do botão adicionar pizza ao carrinho
+c('.pizzaInfo--addButton').addEventListener('click', () => {
+
+    let selectSize = parseInt(c('.pizzaInfo--size.selected').getAttribute('data-key'));
+
+    cart.push({
+        id: pizzaJson[modalKey].id,
+        size: selectSize,
+        qtd: modalQt
+    });
+
+    closeModal();
+})
