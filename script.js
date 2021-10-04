@@ -111,10 +111,32 @@ c('.pizzaInfo--addButton').addEventListener('click', () => {
 
 function updateCart() {
     if (cart.length > 0) {
-        c('aside').classList.add('show');
+        c('aside').classList.add('show'); //Adiciona a classe que mostra o carrinho.
+        c('.cart').innerHTML = ''; //Limpa o carrinho antes de atualizar.
+
         for (let i in cart) {
             let pizzaItem = pizzaJson.find((item) => item.id == cart[i].id);
 
+            let cartItem = c('.models .cart--item').cloneNode(true); //Copia a estrutura da pizza no carrinho.
+
+            let size;
+            switch (cart[i].size) {
+                case 0:
+                    size = 'P';
+                    break;
+                case 1:
+                    size = 'M';
+                    break;
+                case 2:
+                    size = 'G';
+                    break;
+            }
+            let nameAndSize = `${pizzaItem.name} (${size})`;
+            cartItem.querySelector('img').src = pizzaItem.img;
+            cartItem.querySelector('.cart--item-nome').innerHTML = nameAndSize;
+            cartItem.querySelector('.cart--item--qt').innerHTML = cart[i].qtd;
+
+            c('.cart').append(cartItem); //Adiciona uma estrutura de pizza ao carrinho.
             console.log(pizzaItem);
         }
     } else {
