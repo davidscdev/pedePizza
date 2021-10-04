@@ -109,13 +109,31 @@ c('.pizzaInfo--addButton').addEventListener('click', () => {
     updateCart();
 })
 
+c('.menu-openner').addEventListener('click', () => {
+    if (cart.length > 0) {
+        c('aside').style.left = 0;
+    }
+});
+
+c('.menu-closer').addEventListener('click', () => {
+    c('aside').style.left = '100vw';
+});
+
 function updateCart() {
+    c('.menu-openner span').innerHTML = cart.length;
     if (cart.length > 0) {
         c('aside').classList.add('show'); //Adiciona a classe que mostra o carrinho.
         c('.cart').innerHTML = ''; //Limpa o carrinho antes de atualizar.
 
+        let subtotal = 0;
+        let desconto = 0;
+        let total = 0;
+
+
         for (let i in cart) {
             let pizzaItem = pizzaJson.find((item) => item.id == cart[i].id);
+
+            subtotal += pizzaItem.price * cart[i].qtd;
 
             let cartItem = c('.models .cart--item').cloneNode(true); //Copia a estrutura da pizza no carrinho.
 
@@ -137,9 +155,36 @@ function updateCart() {
             cartItem.querySelector('.cart--item--qt').innerHTML = cart[i].qtd;
 
             c('.cart').append(cartItem); //Adiciona uma estrutura de pizza ao carrinho.
+
+            cartItem.querySelector('.cart--item-qtmenos').addEventListener('click', () => {
+
+                if (cart[i].qtd > 1) {
+                    cart[i].qtd--;
+                } else {
+                    cart.splice(i, 1);
+                }
+
+                updateCart();
+            });
+
+            //Funcionalidade do botão + do carrinho.
+            cartItem.querySelector('.cart--item-qtmais').addEventListener('click', () => {
+                cart[i].qtd++;
+                updateCart();
+            });
+
             console.log(pizzaItem);
+
+            desconto = subtotal * 0.1;
+            total = subtotal - desconto;
+
+            c('.subtotal span:last-child').innerHTML = `R$ ${subtotal.toFixed(2)}`;
+            c('.desconto span:last-child').innerHTML = `R$ ${desconto.toFixed(2)}`;
+            c('.total span:last-child').innerHTML = `R$ ${total.toFixed(2)}`;
+
         }
     } else {
-        c('aside').classList.remove('show');
+        c('aside').classList.remove('show'); //Fechando o aside na web.
+        c('aside').style.left = '100vw'; //Fechando o aside no celular.
     }
 }
